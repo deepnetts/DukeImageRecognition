@@ -52,15 +52,12 @@ public class DukeImageRecognition {
         int imageHeight = 64;
         
         // paths to training images
-        // ovi fajlovi treba sami da se kreiraju! nadji resenje, posebno za zero mean
-        // mozda samo setZeroMean boolean a ne poziv metode, mozda i builder za ImageSet
         String dataSetPath = "DukeSet"; // path to folder with images
         String labelsFile = dataSetPath + "/labels.txt"; // path to plain file with list of labels
         String trainingFile = dataSetPath + "/index.txt"; // path to plain txt file with list of images and coresponding labels
 
-
-        RandomGenerator.getDefault().initSeed(123); // fix global random generator to get repeatable training results
-    //    DeepNetts.getInstance();
+        // init global random generator to be able to get repeatable training results
+        RandomGenerator.getDefault().initSeed(123); 
     
         // initialize image data set and preprocessing
         LOGGER.info("Loading images...");
@@ -69,8 +66,7 @@ public class DukeImageRecognition {
         imageSet.setInvertImages(true);
         imageSet.loadLabels(new File(labelsFile));// automatski generisi na osnovu foldera
         imageSet.loadImages(new File(trainingFile)); // ucitaj na kraju 
-        imageSet.zeroMean(); // ovo moze tek kad ucita sve slike
-                             // da moze da ga kesira u .deepnatts dir preprocesiranog treba mi builder za to 
+        imageSet.zeroMean(); 
         
         LOGGER.info("Splitting data into training and test sets...");  
         TrainTestSplit trainTest = imageSet.trainTestSplit(0.7);
@@ -111,10 +107,15 @@ public class DukeImageRecognition {
 
         // enable image preprocessing for new images during inference - use same preprocessing that was used for training
         ((ImagePreprocessing)convNet.getPreprocessing()).setEnabled(true);
-                     
+                  
+        // load some image to check if it is a duke
         BufferedImage image = ImageIO.read(new File("DukeSet/duke/duke7.jpg"));
+        
+        // instantiate image classifier for BufferedImages using traine convolutional network
         ImageClassifier<BufferedImage> imageClassifier = new ImageClassifierNetwork(convNet);
+        // classify image
         Map<String, Float> results = imageClassifier.classify(image); // result is a map with image labels as keys and coresponding probability
+        // user friendly class to access and interpre classification results
         LabelProbabilities labelProb = new LabelProbabilities(results);
         LOGGER.info(labelProb.toString());
      
