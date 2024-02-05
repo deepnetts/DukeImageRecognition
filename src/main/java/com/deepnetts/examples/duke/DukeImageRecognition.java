@@ -35,7 +35,7 @@ import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
  * https://www.deepnetts.com/download
  *
  * Step-by-step guide for setting up Deep Netts is available at
- * https://www.deepnetts.com/getting-started
+ * https://www.deepnetts.com/quickstart
  * 
  * @see ConvolutionalNetwork
  * @see ImageSet
