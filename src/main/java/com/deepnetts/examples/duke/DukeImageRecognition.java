@@ -88,7 +88,7 @@ public class DukeImageRecognition {
         BackpropagationTrainer trainer = convNet.getTrainer(); // Get a trainer of the created convolutional network
         trainer.setStopError(0.03f)         // training should stop once the training error is below this value
                .setLearningRate(0.01f);     // amount of error to use for adjusting internal parameters in each training step
-        trainer.train(trainTest.getTrainSet()); // run training
+        trainer.train(trainTest.getTrainingSet()); // run training
 
         LOGGER.info("Testing the trained neural network - computing various evaluation metrics using test set...");
         EvaluationMetrics testResults = convNet.test(trainTest.getTestSet());
